@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load static core_extras %}
+
+{% block content %}
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <svg class="hero-net" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g stroke="#bfe0ff" stroke-width="1" fill="#bfe0ff">
+      <circle cx="120" cy="120" r="3"/><circle cx="320" cy="80" r="3"/><circle cx="520" cy="160" r="3"/>
+      <circle cx="900" cy="100" r="3"/><circle cx="1080" cy="220" r="3"/><circle cx="700" cy="320" r="3"/>
+      <circle cx="240" cy="380" r="3"/><circle cx="1000" cy="420" r="3"/>
+      <path d="M120 120L320 80L520 160L700 320M900 100L1080 220M520 160L700 320L1000 420M240 380L520 160"/>
+    </g>
+  </svg>
+
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-content reveal">
+        <span class="hero-badge"><span class="dot"></span>{{ t.hero_badge }}</span>
+        <h1>{{ t.hero_title }}</h1>
+        <p class="hero-text">{{ t.hero_text }}</p>
+        <div class="hero-cta">
+          <a href="{% url 'core:contact' %}" class="btn btn-light btn-lg">{{ t.hero_cta_primary }}
+            <svg class="icon arrow-icon"><use href="#i-arrow"></use></svg></a>
+          <a href="{% url 'core:portfolio' %}" class="btn btn-ghost-light btn-lg">{{ t.hero_cta_secondary }}</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><div class="num"><span data-count="150">0</span><span class="plus">+</span></div><div class="lbl">{{ t.stat_projects }}</div></div>
+          <div class="stat"><div class="num"><span data-count="80">0</span><span class="plus">+</span></div><div class="lbl">{{ t.stat_clients }}</div></div>
+          <div class="stat"><div class="num"><span data-count="5">0</span><span class="plus">+</span></div><div class="lbl">{{ t.stat_experience }}</div></div>
+          <div class="stat"><div class="num">24/7</div><div class="lbl">{{ t.stat_support }}</div></div>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal">
+        <div class="hero-card">
+          <div class="logo-showcase"><img src="{% static 'img/logo-full.png' %}" alt="{{ t.brand_name }} — {{ t.brand_tagline }}"></div>
+          <div class="hc-sub">{{ t.slogan }}</div>
+          <div class="hc-bars">
+            <span style="height:45%;animation-delay:.1s"></span>
+            <span style="height:70%;animation-delay:.2s"></span>
+            <span style="height:55%;animation-delay:.3s"></span>
+            <span style="height:88%;animation-delay:.4s"></span>
+            <span style="height:72%;animation-delay:.5s"></span>
+            <span style="height:100%;animation-delay:.6s"></span>
+          </div>
+        </div>
+        <div class="hero-float f1"><span class="ic"><svg class="icon"><use href="#i-chart"></use></svg></span><span>+220% {{ t.stat_clients }}</span></div>
+        <div class="hero-float f2"><span class="ic"><svg class="icon"><use href="#i-rocket"></use></svg></span><span>{{ t.slogan }}</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TRUST / AUDIENCE STRIP ================= -->
+<section class="trust">
+  <div class="container">
+    <div class="t-item"><svg class="icon"><use href="#i-restaurant"></use></svg>{{ t.filter_restaurant }}</div>
+    <div class="t-item"><svg class="icon"><use href="#i-clinic"></use></svg>{{ t.filter_clinic }}</div>
+    <div class="t-item"><svg class="icon"><use href="#i-store"></use></svg>{{ t.filter_store }}</div>
+    <div class="t-item"><svg class="icon"><use href="#i-cafe"></use></svg>{{ t.filter_cafe }}</div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">{{ t.services_title }}</span>
+      <h2 class="section-title">{{ t.services_subtitle }}</h2>
+    </div>
+    <div class="cards-grid">
+      {% for service in services %}
+      <article class="service-card reveal">
+        <div class="service-ic"><svg class="icon"><use href="#i-{{ service.icon }}"></use></svg></div>
+        <h3>{{ service.title }}</h3>
+        <p>{{ service.short }}</p>
+        <a href="{% url 'core:services' %}" class="more">{{ t.services_cta }} <svg class="icon"><use href="#i-arrow"></use></svg></a>
+      </article>
+      {% empty %}
+      <div class="empty-state" style="grid-column:1/-1">{{ t.portfolio_empty }}</div>
+      {% endfor %}
+    </div>
+    {% if all_services_count > 6 %}
+    <div style="text-align:center;margin-top:42px"><a href="{% url 'core:services' %}" class="btn btn-outline btn-lg">{{ t.services_all }} <svg class="icon arrow-icon"><use href="#i-arrow"></use></svg></a></div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- ================= WHY US ================= -->
+<section class="section section-light">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">{{ t.why_title }}</span>
+      <h2 class="section-title">{{ t.why_subtitle }}</h2>
+    </div>
+    <div class="why">
+      <div class="feature reveal"><div class="f-ic"><svg class="icon"><use href="#i-sparkle"></use></svg></div><h3>{{ t.feature_1_title }}</h3><p>{{ t.feature_1_text }}</p></div>
+      <div class="feature reveal"><div class="f-ic"><svg class="icon"><use href="#i-chart"></use></svg></div><h3>{{ t.feature_2_title }}</h3><p>{{ t.feature_2_text }}</p></div>
+      <div class="feature reveal"><div class="f-ic"><svg class="icon"><use href="#i-users"></use></svg></div><h3>{{ t.feature_3_title }}</h3><p>{{ t.feature_3_text }}</p></div>
+      <div class="feature reveal"><div class="f-ic"><svg class="icon"><use href="#i-shield"></use></svg></div><h3>{{ t.feature_4_title }}</h3><p>{{ t.feature_4_text }}</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PORTFOLIO PREVIEW ================= -->
+{% if projects %}
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">{{ t.portfolio_title }}</span>
+      <h2 class="section-title">{{ t.portfolio_subtitle }}</h2>
+    </div>
+    <div class="portfolio-grid">
+      {% for project in projects %}
+      <article class="work reveal">
+        {% if project.image %}<img src="{{ project.image.url }}" alt="{{ project.title }}" loading="lazy">
+        {% else %}{% include 'partials/project_mockup.html' %}{% endif %}
+        <div class="work-overlay">
+          <span class="work-cat">{{ t|dictkey:project.category_label_key }}</span>
+          <h3>{{ project.title }}</h3>
+          {% if project.short %}<p>{{ project.short }}</p>{% endif %}
+          {% if project.url %}<a href="{{ project.url }}" target="_blank" rel="noopener" class="work-link">{{ t.portfolio_visit }} <svg class="icon"><use href="#i-arrow"></use></svg></a>{% endif %}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    <div style="text-align:center;margin-top:42px"><a href="{% url 'core:portfolio' %}" class="btn btn-navy btn-lg">{{ t.portfolio_title }} <svg class="icon arrow-icon"><use href="#i-arrow"></use></svg></a></div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ================= TESTIMONIALS ================= -->
+{% if testimonials %}
+<section class="section section-light">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">{{ t.testi_title }}</span>
+      <h2 class="section-title">{{ t.testi_subtitle }}</h2>
+    </div>
+    <div class="testi-grid">
+      {% for item in testimonials %}
+      <article class="testi reveal">
+        <span class="quote-mark">”</span>
+        <div class="stars">
+          {% for n in item.stars_range %}<svg class="icon {% if n > item.rating %}off{% endif %}"><use href="#i-star"></use></svg>{% endfor %}
+        </div>
+        <p class="content">{{ item.content }}</p>
+        <div class="who">
+          {% if item.image %}<img class="avatar" src="{{ item.image.url }}" alt="{{ item.name }}">
+          {% else %}<span class="avatar">{{ item.name|first }}</span>{% endif %}
+          <div><div class="name">{{ item.name }}</div><div class="biz">{{ item.business }}</div></div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ================= CTA BAND ================= -->
+<section class="section">
+  <div class="container">
+    <div class="cta-band reveal">
+      <h2>{{ t.cta_band_title }}</h2>
+      <p>{{ t.cta_band_text }}</p>
+      <div class="cta-actions">
+        <a href="{% url 'core:contact' %}" class="btn btn-light btn-lg">{{ t.cta_band_button }}</a>
+        {% if site.whatsapp_link %}<a href="{{ site.whatsapp_link }}" target="_blank" rel="noopener" class="btn btn-ghost-light btn-lg"><svg class="icon"><use href="#i-whatsapp"></use></svg> {{ t.contact_whatsapp }}</a>{% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

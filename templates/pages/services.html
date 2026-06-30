@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ t.nav_services }} — {{ t.brand_name }}{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container">
+    <h1>{{ t.services_title }}</h1>
+    <p>{{ t.services_subtitle }}</p>
+    <nav class="breadcrumb"><a href="{% url 'core:home' %}">{{ t.nav_home }}</a><span>/</span><span>{{ t.nav_services }}</span></nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="service-list">
+      {% for service in services %}
+      <article class="service-row reveal">
+        <div class="service-ic"><svg class="icon"><use href="#i-{{ service.icon }}"></use></svg></div>
+        <div>
+          <h3>{{ service.title }}</h3>
+          <p>{% if service.description %}{{ service.description }}{% else %}{{ service.short }}{% endif %}</p>
+        </div>
+      </article>
+      {% empty %}
+      <div class="empty-state" style="grid-column:1/-1">
+        <svg class="icon"><use href="#i-image"></use></svg>
+        <p>{{ t.portfolio_empty }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Process -->
+<section class="section section-light">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">{{ t.process_title }}</span>
+      <h2 class="section-title">{{ t.process_sub }}</h2>
+    </div>
+    <div class="process">
+      <div class="step reveal"><div class="step-num">1</div><h3>{{ t.step_1_title }}</h3><p>{{ t.step_1_text }}</p></div>
+      <div class="step reveal"><div class="step-num">2</div><h3>{{ t.step_2_title }}</h3><p>{{ t.step_2_text }}</p></div>
+      <div class="step reveal"><div class="step-num">3</div><h3>{{ t.step_3_title }}</h3><p>{{ t.step_3_text }}</p></div>
+      <div class="step reveal"><div class="step-num">4</div><h3>{{ t.step_4_title }}</h3><p>{{ t.step_4_text }}</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+  <div class="container">
+    <div class="cta-band reveal">
+      <h2>{{ t.cta_band_title }}</h2>
+      <p>{{ t.cta_band_text }}</p>
+      <div class="cta-actions">
+        <a href="{% url 'core:contact' %}" class="btn btn-light btn-lg">{{ t.cta_band_button }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,83 @@
+{% load core_extras %}{% comment %}
+Auto-generated, on-brand SVG "screen mockup" for a project that has no uploaded
+image. Layout & accent colour adapt to the project category. Gradient ids are
+suffixed with the project pk so multiple mockups can coexist on one page.
+{% endcomment %}
+{% with accent=project.category|mk_accent tint=project.category|mk_tint pk=project.pk %}
+<svg class="work-mockup" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"
+     xmlns="http://www.w3.org/2000/svg" role="img" aria-label="{{ project.title }}"
+     style="font-family:'Cairo','Tajawal','Montserrat',sans-serif">
+  <defs>
+    <linearGradient id="bd{{ pk }}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="{{ tint }}"/><stop offset="1" stop-color="#06294a"/>
+    </linearGradient>
+    <linearGradient id="hr{{ pk }}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="{{ accent }}"/><stop offset="1" stop-color="{{ tint }}"/>
+    </linearGradient>
+  </defs>
+
+  <!-- backdrop -->
+  <rect width="400" height="300" fill="url(#bd{{ pk }})"/>
+  <circle cx="64" cy="40" r="70" fill="#ffffff" opacity=".05"/>
+  <circle cx="360" cy="280" r="90" fill="#ffffff" opacity=".05"/>
+
+  <!-- browser window -->
+  <rect x="36" y="46" width="336" height="220" rx="14" fill="#06203c" opacity=".18"/>
+  <rect x="30" y="38" width="340" height="220" rx="14" fill="#ffffff"/>
+  <circle cx="48" cy="53" r="3.4" fill="#d6dde7"/><circle cx="60" cy="53" r="3.4" fill="#d6dde7"/><circle cx="72" cy="53" r="3.4" fill="#d6dde7"/>
+  <rect x="92" y="47" width="252" height="13" rx="6.5" fill="#eef2f7"/>
+  <circle cx="100" cy="53.5" r="2.6" fill="#c2ccd8"/>
+  <line x1="30" y1="67" x2="370" y2="67" stroke="#eceff4" stroke-width="1.5"/>
+
+  <!-- hero banner with project title + category glyph -->
+  <rect x="44" y="80" width="312" height="56" rx="9" fill="url(#hr{{ pk }})"/>
+  <g transform="translate(58 97)" fill="none" stroke="#ffffff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" opacity=".95">
+    {% if project.category == 'restaurant' %}<path d="M3 1.5v5a2 2 0 0 0 4 0v-5"/><path d="M5 6.5V20"/><path d="M14 1.5C15.4 1.5 16 3.6 16 6s-.6 4.2-2 4.2V20"/>
+    {% elif project.category == 'clinic' %}<rect x="3" y="3" width="14" height="14" rx="3.5"/><path d="M10 7v6M7 10h6"/>
+    {% elif project.category == 'store' %}<path d="M4 6.5h12l-1 12.5H5L4 6.5z"/><path d="M7.2 6.5a2.8 2.8 0 0 1 5.6 0"/>
+    {% elif project.category == 'cafe' %}<path d="M3 7h11v4a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7z"/><path d="M14 8h2a2 2 0 0 1 0 4h-2"/><path d="M6 2.5v2M9 2.5v2"/>
+    {% else %}<path d="M3 17V3M3 17h14"/><path d="M6 13l3-3 3 2 4-5"/>{% endif %}
+  </g>
+  <text x="212" y="113" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="800">{{ project.title|truncatechars:20 }}</text>
+
+  <!-- category body -->
+  {% if project.category == 'restaurant' %}
+    <g>
+      <rect x="48" y="150" width="34" height="20" rx="5" fill="{{ accent }}" opacity=".18"/><rect x="90" y="152" width="150" height="6" rx="3" fill="#e1e7ee"/><rect x="90" y="163" width="104" height="5" rx="2.5" fill="#eef1f5"/><rect x="300" y="151" width="44" height="17" rx="8.5" fill="{{ accent }}" opacity=".85"/>
+      <rect x="48" y="178" width="34" height="20" rx="5" fill="{{ accent }}" opacity=".18"/><rect x="90" y="180" width="132" height="6" rx="3" fill="#e1e7ee"/><rect x="90" y="191" width="92" height="5" rx="2.5" fill="#eef1f5"/><rect x="300" y="179" width="44" height="17" rx="8.5" fill="{{ accent }}" opacity=".85"/>
+      <rect x="48" y="206" width="34" height="20" rx="5" fill="{{ accent }}" opacity=".18"/><rect x="90" y="208" width="146" height="6" rx="3" fill="#e1e7ee"/><rect x="90" y="219" width="80" height="5" rx="2.5" fill="#eef1f5"/><rect x="300" y="207" width="44" height="17" rx="8.5" fill="{{ accent }}" opacity=".85"/>
+      <rect x="150" y="236" width="100" height="16" rx="8" fill="{{ accent }}"/>
+    </g>
+  {% elif project.category == 'clinic' %}
+    <g>
+      <rect x="50" y="152" width="16" height="16" rx="3" fill="#e9eef5"/><rect x="71" y="152" width="16" height="16" rx="3" fill="#e9eef5"/><rect x="92" y="152" width="16" height="16" rx="3" fill="#e9eef5"/><rect x="113" y="152" width="16" height="16" rx="3" fill="#e9eef5"/><rect x="134" y="152" width="16" height="16" rx="3" fill="#e9eef5"/>
+      <rect x="50" y="173" width="16" height="16" rx="3" fill="#e9eef5"/><rect x="71" y="173" width="16" height="16" rx="3" fill="#e9eef5"/><rect x="92" y="173" width="16" height="16" rx="3" fill="{{ accent }}"/><rect x="113" y="173" width="16" height="16" rx="3" fill="#e9eef5"/><rect x="134" y="173" width="16" height="16" rx="3" fill="#e9eef5"/>
+      <rect x="50" y="194" width="16" height="16" rx="3" fill="#e9eef5"/><rect x="71" y="194" width="16" height="16" rx="3" fill="#e9eef5"/><rect x="92" y="194" width="16" height="16" rx="3" fill="#e9eef5"/><rect x="113" y="194" width="16" height="16" rx="3" fill="{{ accent }}" opacity=".5"/><rect x="134" y="194" width="16" height="16" rx="3" fill="#e9eef5"/>
+      <rect x="176" y="150" width="168" height="62" rx="8" fill="#f5f8fc" stroke="#e6ecf3"/>
+      <circle cx="194" cy="170" r="9" fill="{{ accent }}" opacity=".3"/><rect x="210" y="163" width="110" height="6" rx="3" fill="#e1e7ee"/><rect x="210" y="175" width="78" height="5" rx="2.5" fill="#eef1f5"/><rect x="192" y="192" width="80" height="12" rx="6" fill="{{ accent }}" opacity=".85"/>
+      <rect x="176" y="224" width="168" height="16" rx="8" fill="{{ accent }}"/>
+    </g>
+  {% elif project.category == 'store' %}
+    <g>
+      <g transform="translate(48 150)"><rect width="144" height="46" rx="8" fill="#f5f8fc" stroke="#e8edf4"/><rect x="8" y="7" width="42" height="32" rx="5" fill="{{ accent }}" opacity=".22"/><rect x="58" y="11" width="66" height="6" rx="3" fill="#e1e7ee"/><rect x="58" y="22" width="42" height="5" rx="2.5" fill="#eef1f5"/><rect x="58" y="31" width="30" height="8" rx="4" fill="{{ accent }}" opacity=".8"/></g>
+      <g transform="translate(208 150)"><rect width="144" height="46" rx="8" fill="#f5f8fc" stroke="#e8edf4"/><rect x="8" y="7" width="42" height="32" rx="5" fill="{{ accent }}" opacity=".22"/><rect x="58" y="11" width="66" height="6" rx="3" fill="#e1e7ee"/><rect x="58" y="22" width="42" height="5" rx="2.5" fill="#eef1f5"/><rect x="58" y="31" width="30" height="8" rx="4" fill="{{ accent }}" opacity=".8"/></g>
+      <g transform="translate(48 204)"><rect width="144" height="46" rx="8" fill="#f5f8fc" stroke="#e8edf4"/><rect x="8" y="7" width="42" height="32" rx="5" fill="{{ accent }}" opacity=".22"/><rect x="58" y="11" width="66" height="6" rx="3" fill="#e1e7ee"/><rect x="58" y="22" width="42" height="5" rx="2.5" fill="#eef1f5"/><rect x="58" y="31" width="30" height="8" rx="4" fill="{{ accent }}" opacity=".8"/></g>
+      <g transform="translate(208 204)"><rect width="144" height="46" rx="8" fill="#f5f8fc" stroke="#e8edf4"/><rect x="8" y="7" width="42" height="32" rx="5" fill="{{ accent }}" opacity=".22"/><rect x="58" y="11" width="66" height="6" rx="3" fill="#e1e7ee"/><rect x="58" y="22" width="42" height="5" rx="2.5" fill="#eef1f5"/><rect x="58" y="31" width="30" height="8" rx="4" fill="{{ accent }}" opacity=".8"/></g>
+    </g>
+  {% elif project.category == 'cafe' %}
+    <g>
+      <rect x="50" y="156" width="42" height="36" rx="6" fill="{{ tint }}"/><rect x="98" y="156" width="42" height="36" rx="6" fill="{{ accent }}"/><rect x="146" y="156" width="42" height="36" rx="6" fill="#4A95D9"/>
+      <rect x="50" y="202" width="120" height="6" rx="3" fill="#e1e7ee"/><rect x="50" y="214" width="84" height="5" rx="2.5" fill="#eef1f5"/>
+      <use href="#brand-mark" x="298" y="150" width="46" height="46" style="color:{{ accent }}"/>
+      <circle cx="214" cy="226" r="9" fill="#eef2f7" stroke="{{ accent }}" stroke-width="1.6"/><circle cx="240" cy="226" r="9" fill="#eef2f7" stroke="{{ accent }}" stroke-width="1.6"/><circle cx="266" cy="226" r="9" fill="#eef2f7" stroke="{{ accent }}" stroke-width="1.6"/><circle cx="292" cy="226" r="9" fill="#eef2f7" stroke="{{ accent }}" stroke-width="1.6"/>
+    </g>
+  {% else %}
+    <g>
+      <rect x="48" y="150" width="146" height="42" rx="8" fill="#f5f8fc" stroke="#e8edf4"/><rect x="60" y="160" width="60" height="6" rx="3" fill="#e1e7ee"/><rect x="60" y="172" width="90" height="10" rx="5" fill="{{ accent }}" opacity=".75"/>
+      <rect x="206" y="150" width="146" height="42" rx="8" fill="#f5f8fc" stroke="#e8edf4"/><rect x="218" y="160" width="60" height="6" rx="3" fill="#e1e7ee"/><rect x="218" y="172" width="78" height="10" rx="5" fill="{{ accent }}" opacity=".75"/>
+      <line x1="56" y1="248" x2="344" y2="248" stroke="#e8edf4" stroke-width="1.5"/>
+      <rect x="64" y="226" width="16" height="22" rx="3" fill="{{ accent }}" opacity=".55"/><rect x="92" y="216" width="16" height="32" rx="3" fill="{{ accent }}" opacity=".7"/><rect x="120" y="232" width="16" height="16" rx="3" fill="{{ accent }}" opacity=".55"/><rect x="148" y="206" width="16" height="42" rx="3" fill="{{ accent }}"/><rect x="176" y="222" width="16" height="26" rx="3" fill="{{ accent }}" opacity=".7"/>
+    </g>
+  {% endif %}
+</svg>
+{% endwith %}

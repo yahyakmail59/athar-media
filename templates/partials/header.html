@@ -1,0 +1,39 @@
+{% load static %}
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="{% url 'core:home' %}" class="brand" aria-label="{{ t.brand_name }}">
+      <img class="brand-mark brand-mark-navy" src="{% static 'img/logo-mark.png' %}" alt="{{ t.brand_name }}" width="48" height="48">
+      <img class="brand-mark brand-mark-white" src="{% static 'img/logo-mark-white.png' %}" alt="" aria-hidden="true" width="48" height="48">
+      <span class="brand-text">
+        <span class="brand-name">{{ t.brand_name }}</span>
+        <span class="brand-tag">{{ t.brand_tagline }}</span>
+      </span>
+    </a>
+
+    <nav class="main-nav" id="mainNav">
+      <a href="{% url 'core:home' %}" class="{% if active_page == 'home' %}active{% endif %}">{{ t.nav_home }}</a>
+      <a href="{% url 'core:services' %}" class="{% if active_page == 'services' %}active{% endif %}">{{ t.nav_services }}</a>
+      <a href="{% url 'core:portfolio' %}" class="{% if active_page == 'portfolio' %}active{% endif %}">{{ t.nav_portfolio }}</a>
+      <a href="{% url 'core:about' %}" class="{% if active_page == 'about' %}active{% endif %}">{{ t.nav_about }}</a>
+      <a href="{% url 'core:contact' %}" class="{% if active_page == 'contact' %}active{% endif %}">{{ t.nav_contact }}</a>
+      <a href="{% url 'core:contact' %}" class="btn btn-primary nav-cta">{{ t.nav_quote }}</a>
+    </nav>
+
+    <div class="header-actions">
+      {% if lang == 'ar' %}
+        <a href="{% url 'core:set_language' 'en' %}" class="lang-btn" aria-label="Switch to English">
+          <svg class="icon"><use href="#i-globe"></use></svg><span class="full">English</span>
+        </a>
+      {% else %}
+        <a href="{% url 'core:set_language' 'ar' %}" class="lang-btn" aria-label="التبديل إلى العربية">
+          <svg class="icon"><use href="#i-globe"></use></svg><span class="full">العربية</span>
+        </a>
+      {% endif %}
+      <a href="{% url 'core:contact' %}" class="btn btn-primary nav-cta-desktop">{{ t.nav_quote }}</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+        <svg class="icon menu-ic"><use href="#i-menu"></use></svg>
+        <svg class="icon close-ic" style="display:none"><use href="#i-close"></use></svg>
+      </button>
+    </div>
+  </div>
+</header>

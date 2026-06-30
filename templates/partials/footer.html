@@ -1,0 +1,67 @@
+{% load static %}
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="{% url 'core:home' %}" class="footer-brand-link" aria-label="{{ t.brand_name }}">
+          <img class="footer-logo" src="{% static 'img/logo-full-white.png' %}" alt="{{ t.brand_name }} — {{ t.brand_tagline }}">
+        </a>
+        <p>{{ t.footer_about }}</p>
+        {% if site.social_links %}
+        <div class="footer-social">
+          {% for name, url, icon in site.social_links %}
+            <a href="{{ url }}" target="_blank" rel="noopener" aria-label="{{ name }}"><svg class="icon"><use href="#i-{{ icon }}"></use></svg></a>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="footer-col">
+        <h4>{{ t.footer_links }}</h4>
+        <ul>
+          <li><a href="{% url 'core:home' %}">{{ t.nav_home }}</a></li>
+          <li><a href="{% url 'core:services' %}">{{ t.nav_services }}</a></li>
+          <li><a href="{% url 'core:portfolio' %}">{{ t.nav_portfolio }}</a></li>
+          <li><a href="{% url 'core:about' %}">{{ t.nav_about }}</a></li>
+          <li><a href="{% url 'core:contact' %}">{{ t.nav_contact }}</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>{{ t.footer_services }}</h4>
+        <ul>
+          {% if lang == 'ar' %}
+          <li><a href="{% url 'core:services' %}">تصميم المواقع</a></li>
+          <li><a href="{% url 'core:services' %}">الإعلانات الممولة</a></li>
+          <li><a href="{% url 'core:services' %}">إدارة السوشيال ميديا</a></li>
+          <li><a href="{% url 'core:services' %}">الهوية البصرية</a></li>
+          <li><a href="{% url 'core:services' %}">المتاجر الإلكترونية</a></li>
+          {% else %}
+          <li><a href="{% url 'core:services' %}">Web Design</a></li>
+          <li><a href="{% url 'core:services' %}">Paid Ads</a></li>
+          <li><a href="{% url 'core:services' %}">Social Media</a></li>
+          <li><a href="{% url 'core:services' %}">Brand Identity</a></li>
+          <li><a href="{% url 'core:services' %}">E-commerce</a></li>
+          {% endif %}
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>{{ t.footer_contact }}</h4>
+        <ul class="footer-contact">
+          {% if site %}
+          <li><svg class="icon"><use href="#i-phone"></use></svg><a href="tel:{{ site.phone }}" dir="ltr">{{ site.phone }}</a></li>
+          <li><svg class="icon"><use href="#i-mail"></use></svg><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
+          <li><svg class="icon"><use href="#i-location"></use></svg><span>{{ site.address }}</span></li>
+          <li><svg class="icon"><use href="#i-clock"></use></svg><span>{{ site.working_hours }}</span></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© {% now "Y" %} {{ t.brand_name }} — {{ t.footer_rights }}.</span>
+      <span>{{ t.footer_made }}</span>
+    </div>
+  </div>
+</footer>

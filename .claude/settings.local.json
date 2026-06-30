@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(python --version)",
+      "PowerShell(pip --version)",
+      "PowerShell(python -c \"import django; print\\('Django', django.get_version\\(\\)\\)\" 2>$null)",
+      "PowerShell(Set-Location \"C:\\\\Users\\\\yahya\\\\Desktop\\\\Athar_Media\"; Get-ChildItem -Force | Where-Object { $_.Name -ne 'venv' } | Select-Object Name, Length)"
+    ]
+  }
+}

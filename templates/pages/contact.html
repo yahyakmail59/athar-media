@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ t.nav_contact }} — {{ t.brand_name }}{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container">
+    <h1>{{ t.contact_title }}</h1>
+    <p>{{ t.contact_subtitle }}</p>
+    <nav class="breadcrumb"><a href="{% url 'core:home' %}">{{ t.nav_home }}</a><span>/</span><span>{{ t.nav_contact }}</span></nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="contact-grid">
+
+      <!-- Info panel -->
+      <aside class="contact-info reveal">
+        <h2>{{ t.contact_info_title }}</h2>
+        <p>{{ t.contact_subtitle }}</p>
+        <div class="info-list">
+          {% if site %}
+          <div class="info-item"><span class="ic"><svg class="icon"><use href="#i-phone"></use></svg></span>
+            <div><div class="lbl">{{ t.contact_phone }}</div><a class="val" href="tel:{{ site.phone }}" dir="ltr">{{ site.phone }}</a></div></div>
+          <div class="info-item"><span class="ic"><svg class="icon"><use href="#i-mail"></use></svg></span>
+            <div><div class="lbl">{{ t.contact_email }}</div><a class="val" href="mailto:{{ site.email }}">{{ site.email }}</a></div></div>
+          <div class="info-item"><span class="ic"><svg class="icon"><use href="#i-location"></use></svg></span>
+            <div><div class="lbl">{{ t.contact_address }}</div><div class="val">{{ site.address }}</div></div></div>
+          <div class="info-item"><span class="ic"><svg class="icon"><use href="#i-clock"></use></svg></span>
+            <div><div class="lbl">{{ t.contact_hours }}</div><div class="val">{{ site.working_hours }}</div></div></div>
+          {% endif %}
+        </div>
+
+        {% if site.whatsapp_link %}
+        <a href="{{ site.whatsapp_link }}" target="_blank" rel="noopener" class="wa-btn"><svg class="icon"><use href="#i-whatsapp"></use></svg>{{ t.contact_whatsapp }}</a>
+        {% endif %}
+
+        {% if site.social_links %}
+        <div class="social-row">
+          {% for name, url, icon in site.social_links %}
+          <a href="{{ url }}" target="_blank" rel="noopener" aria-label="{{ name }}"><svg class="icon"><use href="#i-{{ icon }}"></use></svg></a>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </aside>
+
+      <!-- Form -->
+      <div class="contact-form-wrap reveal">
+        {% if messages %}
+          {% for message in messages %}
+          <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-error{% endif %}">
+            <svg class="icon"><use href="{% if message.tags == 'success' %}#i-check-circle{% else %}#i-alert{% endif %}"></use></svg>
+            <span>{{ message }}</span>
+          </div>
+          {% endfor %}
+        {% endif %}
+
+        <form method="post" action="{% url 'core:contact' %}" novalidate>
+          {% csrf_token %}
+          {% if form.non_field_errors %}<div class="alert alert-error">{{ form.non_field_errors }}</div>{% endif %}
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="{{ form.name.id_for_label }}">{{ form.name.label }} *</label>
+              {{ form.name }}
+              {% if form.name.errors %}<span class="field-error">{{ form.name.errors.0 }}</span>{% endif %}
+            </div>
+            <div class="form-field">
+              <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }} *</label>
+              {{ form.phone }}
+              {% if form.phone.errors %}<span class="field-error">{{ form.phone.errors.0 }}</span>{% endif %}
+            </div>
+            <div class="form-field">
+              <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+              {{ form.email }}
+              {% if form.email.errors %}<span class="field-error">{{ form.email.errors.0 }}</span>{% endif %}
+            </div>
+            <div class="form-field">
+              <label for="{{ form.business_type.id_for_label }}">{{ form.business_type.label }}</label>
+              {{ form.business_type }}
+              {% if form.business_type.errors %}<span class="field-error">{{ form.business_type.errors.0 }}</span>{% endif %}
+            </div>
+            <div class="form-field full">
+              <label for="{{ form.service.id_for_label }}">{{ form.service.label }}</label>
+              {{ form.service }}
+              {% if form.service.errors %}<span class="field-error">{{ form.service.errors.0 }}</span>{% endif %}
+            </div>
+            <div class="form-field full">
+              <label for="{{ form.message.id_for_label }}">{{ form.message.label }} *</label>
+              {{ form.message }}
+              {% if form.message.errors %}<span class="field-error">{{ form.message.errors.0 }}</span>{% endif %}
+            </div>
+            <div class="form-field full">
+              <button type="submit" class="btn btn-primary btn-lg" style="width:100%">{{ t.form_send }}
+                <svg class="icon arrow-icon"><use href="#i-arrow"></use></svg></button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    {% if site.map_embed %}
+    <div class="map-wrap reveal">
+      <iframe src="{{ site.map_embed }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map"></iframe>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

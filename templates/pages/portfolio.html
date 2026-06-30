@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static core_extras %}
+
+{% block title %}{{ t.nav_portfolio }} — {{ t.brand_name }}{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container">
+    <h1>{{ t.portfolio_title }}</h1>
+    <p>{{ t.portfolio_subtitle }}</p>
+    <nav class="breadcrumb"><a href="{% url 'core:home' %}">{{ t.nav_home }}</a><span>/</span><span>{{ t.nav_portfolio }}</span></nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="filters">
+      <a href="{% url 'core:portfolio' %}" class="filter-btn {% if active_cat == 'all' %}active{% endif %}">{{ t.filter_all }}</a>
+      {% for key, label in categories %}
+      {% with fkey="filter_"|add:key %}
+      <a href="{% url 'core:portfolio' %}?cat={{ key }}" class="filter-btn {% if active_cat == key %}active{% endif %}">{{ t|dictkey:fkey }}</a>
+      {% endwith %}
+      {% endfor %}
+    </div>
+
+    {% if projects %}
+    <div class="portfolio-grid">
+      {% for project in projects %}
+      <article class="work reveal">
+        {% if project.image %}<img src="{{ project.image.url }}" alt="{{ project.title }}" loading="lazy">
+        {% else %}{% include 'partials/project_mockup.html' %}{% endif %}
+        <div class="work-overlay">
+          <span class="work-cat">{{ t|dictkey:project.category_label_key }}</span>
+          <h3>{{ project.title }}</h3>
+          {% if project.short %}<p>{{ project.short }}</p>{% endif %}
+          {% if project.url %}<a href="{{ project.url }}" target="_blank" rel="noopener" class="work-link">{{ t.portfolio_visit }} <svg class="icon"><use href="#i-arrow"></use></svg></a>{% endif %}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <svg class="icon"><use href="#i-image"></use></svg>
+      <p>{{ t.portfolio_empty }}</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="section section-light">
+  <div class="container">
+    <div class="cta-band reveal">
+      <h2>{{ t.cta_band_title }}</h2>
+      <p>{{ t.cta_band_text }}</p>
+      <div class="cta-actions"><a href="{% url 'core:contact' %}" class="btn btn-light btn-lg">{{ t.cta_band_button }}</a></div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

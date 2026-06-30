@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ t.nav_about }} — {{ t.brand_name }}{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container">
+    <h1>{{ t.about_title }}</h1>
+    <p>{{ t.about_subtitle }}</p>
+    <nav class="breadcrumb"><a href="{% url 'core:home' %}">{{ t.nav_home }}</a><span>/</span><span>{{ t.nav_about }}</span></nav>
+  </div>
+</section>
+
+<!-- Intro -->
+<section class="section">
+  <div class="container">
+    <div class="split">
+      <div class="reveal">
+        <span class="eyebrow">{{ t.brand_name }}</span>
+        <h2 class="section-title" style="margin-bottom:16px">{{ t.about_story_title }}</h2>
+        <p style="color:var(--muted);margin-bottom:14px">{{ t.about_intro }}</p>
+        <p style="color:var(--muted)">{{ t.about_story_text }}</p>
+        <ul class="checklist">
+          <li><span class="ck"><svg class="icon"><use href="#i-check"></use></svg></span>{{ t.feature_1_title }}</li>
+          <li><span class="ck"><svg class="icon"><use href="#i-check"></use></svg></span>{{ t.feature_2_title }}</li>
+          <li><span class="ck"><svg class="icon"><use href="#i-check"></use></svg></span>{{ t.feature_3_title }}</li>
+        </ul>
+      </div>
+      <div class="media reveal">
+        <div class="hero-card" style="background:var(--grad);margin-inline:auto">
+          <div class="logo-badge"><img src="{% static 'img/logo-mark.png' %}" alt="{{ t.brand_name }}"></div>
+          <div class="hc-title">{{ t.slogan }}</div>
+          <div class="hc-sub">{{ t.brand_tagline }}</div>
+          <div class="hero-stats" style="justify-content:center;margin-top:24px;gap:24px 36px">
+            <div class="stat"><div class="num"><span data-count="150">0</span><span class="plus">+</span></div><div class="lbl">{{ t.stat_projects }}</div></div>
+            <div class="stat"><div class="num"><span data-count="80">0</span><span class="plus">+</span></div><div class="lbl">{{ t.stat_clients }}</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Mission & Vision -->
+<section class="section section-light">
+  <div class="container">
+    <div class="mv-grid">
+      <div class="mv-card mission reveal">
+        <div class="mv-ic"><svg class="icon"><use href="#i-target"></use></svg></div>
+        <h3>{{ t.mission_title }}</h3>
+        <p>{{ t.mission_text }}</p>
+      </div>
+      <div class="mv-card vision reveal">
+        <div class="mv-ic"><svg class="icon"><use href="#i-eye"></use></svg></div>
+        <h3>{{ t.vision_title }}</h3>
+        <p>{{ t.vision_text }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Values -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">{{ t.values_title }}</span>
+      <h2 class="section-title">{{ t.values_title }}</h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-card reveal"><div class="v-ic"><svg class="icon"><use href="#i-sparkle"></use></svg></div><h3>{{ t.value_1 }}</h3></div>
+      <div class="value-card reveal"><div class="v-ic"><svg class="icon"><use href="#i-shield"></use></svg></div><h3>{{ t.value_2 }}</h3></div>
+      <div class="value-card reveal"><div class="v-ic"><svg class="icon"><use href="#i-check-circle"></use></svg></div><h3>{{ t.value_3 }}</h3></div>
+      <div class="value-card reveal"><div class="v-ic"><svg class="icon"><use href="#i-eye"></use></svg></div><h3>{{ t.value_4 }}</h3></div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+{% if testimonials %}
+<section class="section section-light">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">{{ t.testi_title }}</span>
+      <h2 class="section-title">{{ t.testi_subtitle }}</h2>
+    </div>
+    <div class="testi-grid">
+      {% for item in testimonials %}
+      <article class="testi reveal">
+        <span class="quote-mark">”</span>
+        <div class="stars">{% for n in item.stars_range %}<svg class="icon {% if n > item.rating %}off{% endif %}"><use href="#i-star"></use></svg>{% endfor %}</div>
+        <p class="content">{{ item.content }}</p>
+        <div class="who">
+          {% if item.image %}<img class="avatar" src="{{ item.image.url }}" alt="{{ item.name }}">{% else %}<span class="avatar">{{ item.name|first }}</span>{% endif %}
+          <div><div class="name">{{ item.name }}</div><div class="biz">{{ item.business }}</div></div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section">
+  <div class="container">
+    <div class="cta-band reveal">
+      <h2>{{ t.cta_band_title }}</h2>
+      <p>{{ t.cta_band_text }}</p>
+      <div class="cta-actions"><a href="{% url 'core:contact' %}" class="btn btn-light btn-lg">{{ t.cta_band_button }}</a></div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
