@@ -27,3 +27,5 @@ Thumbs.db
 # Machine-specific / clutter
 .claude/launch.json
 WhatsApp Image*.jpeg
+
+.claude/settings.local.json

@@ -30,19 +30,9 @@
       <div class="footer-col">
         <h4>{{ t.footer_services }}</h4>
         <ul>
-          {% if lang == 'ar' %}
-          <li><a href="{% url 'core:services' %}">تصميم المواقع</a></li>
-          <li><a href="{% url 'core:services' %}">الإعلانات الممولة</a></li>
-          <li><a href="{% url 'core:services' %}">إدارة السوشيال ميديا</a></li>
-          <li><a href="{% url 'core:services' %}">الهوية البصرية</a></li>
-          <li><a href="{% url 'core:services' %}">المتاجر الإلكترونية</a></li>
-          {% else %}
-          <li><a href="{% url 'core:services' %}">Web Design</a></li>
-          <li><a href="{% url 'core:services' %}">Paid Ads</a></li>
-          <li><a href="{% url 'core:services' %}">Social Media</a></li>
-          <li><a href="{% url 'core:services' %}">Brand Identity</a></li>
-          <li><a href="{% url 'core:services' %}">E-commerce</a></li>
-          {% endif %}
+          {% for service in footer_services %}
+          <li><a href="{% url 'core:services' %}">{{ service.title }}</a></li>
+          {% endfor %}
         </ul>
       </div>
 

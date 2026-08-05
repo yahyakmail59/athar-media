@@ -12,12 +12,15 @@ def site_context(request):
     # SiteSettings is a singleton holding contact info & social links.
     # Guarded so the site still renders before the first migration.
     site = None
+    footer_services = []
     try:
-        from .models import SiteSettings
+        from .models import Service, SiteSettings
 
         site = SiteSettings.load()
+        footer_services = Service.objects.filter(is_active=True).order_by("order", "id")
     except Exception:
         site = None
+        footer_services = []
 
     return {
         "lang": lang,
@@ -26,4 +29,5 @@ def site_context(request):
         "t": get_ui(lang),
         "site": site,
         "site_languages": settings.LANGUAGES,
+        "footer_services": footer_services,
     }
