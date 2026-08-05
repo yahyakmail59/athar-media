@@ -6,9 +6,15 @@ A small ``_localized`` helper returns the right value based on the active
 language, so templates can simply use ``{{ service.title }}``.
 """
 
+from io import BytesIO
+from pathlib import Path
+
+from django.core.files.base import ContentFile
 from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import get_language
+
+from PIL import Image, ImageOps
 
 
 def _localized(ar_value, en_value):
@@ -17,6 +23,49 @@ def _localized(ar_value, en_value):
     if lang.startswith("ar"):
         return ar_value or en_value
     return en_value or ar_value
+
+
+# Portfolio covers are drawn into a 4:3 card (`.work` sets aspect-ratio and
+# `object-fit: cover`), so the browser crops whatever it is given. Doing that
+# crop here instead means the stored file is exactly what the card shows, at
+# twice the card's size so it stays sharp on phones.
+COVER_WIDTH = 800
+COVER_HEIGHT = 600
+COVER_QUALITY = 76
+
+
+def _normalise_cover(uploaded, basename):
+    """Crop an upload to the card's 4:3 shape and re-encode it as WebP.
+
+    Whatever comes out of a phone or a designer's export — a 6 MB portrait
+    JPEG, a PNG with transparency, a photo rotated only by its EXIF tag —
+    reaches the page as one predictable file, so adding a project never
+    means resizing anything by hand first.
+    """
+    image = Image.open(uploaded)
+    # Phone cameras record rotation in EXIF rather than in the pixels, and
+    # Pillow reads the pixels, so this has to be applied before cropping.
+    image = ImageOps.exif_transpose(image)
+
+    if image.mode in ("RGBA", "LA", "P"):
+        # WebP keeps alpha, but a transparent cover would show the card's navy
+        # through it, so transparency is flattened onto white instead.
+        image = image.convert("RGBA")
+        flattened = Image.new("RGB", image.size, (255, 255, 255))
+        flattened.paste(image, mask=image.split()[-1])
+        image = flattened
+    else:
+        image = image.convert("RGB")
+
+    # `ImageOps.fit` crops to the target ratio from the centre and scales in
+    # one step, which is what `object-fit: cover` does in the browser.
+    image = ImageOps.fit(
+        image, (COVER_WIDTH, COVER_HEIGHT), method=Image.LANCZOS, centering=(0.5, 0.5),
+    )
+
+    buffer = BytesIO()
+    image.save(buffer, "WEBP", quality=COVER_QUALITY, method=6)
+    return ContentFile(buffer.getvalue(), name=f"{Path(basename).stem}.webp")
 
 
 # Shared category choices for projects / portfolio filtering.
@@ -177,7 +226,14 @@ class Project(models.Model):
     description_ar = models.TextField("الوصف (عربي)", blank=True)
     description_en = models.TextField("الوصف (إنجليزي)", blank=True)
 
-    image = models.ImageField("الصورة", upload_to="projects/", blank=True)
+    image = models.ImageField(
+        "الصورة", upload_to="projects/", blank=True,
+        help_text=(
+            "أي مقاس وأي صيغة — تُقصّ تلقائيًا إلى 4:3 وتُحوَّل إلى WebP مضغوط. "
+            "اتركها فارغة ليظهر الرسم التخطيطي التلقائي. "
+            "ارفعها من لوحة التحكم على الموقع المنشور، لأن الصور المرفوعة محليًا لا تصل الخادم."
+        ),
+    )
     url = models.URLField("رابط الموقع/العمل", blank=True)
     client_name = models.CharField("اسم العميل", max_length=120, blank=True)
     year = models.CharField("السنة", max_length=8, blank=True)
@@ -195,6 +251,15 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title_ar
+
+    def save(self, *args, **kwargs):
+        # `_committed` is False only for a file that has just been assigned and
+        # not yet written to storage, so an image is processed once on upload
+        # rather than re-encoded on every edit of an unrelated field, which
+        # would compress it again and again until it visibly degraded.
+        if self.image and not self.image._committed:
+            self.image = _normalise_cover(self.image, self.image.name)
+        super().save(*args, **kwargs)
 
     @property
     def title(self):
